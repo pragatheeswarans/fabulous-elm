@@ -10,10 +10,19 @@ export default class BlogPostFeedItem extends React.Component {
         let post = _.get(this.props, 'post_page', null);
         let blog_feed_section = _.get(this.props, 'blog_feed_section', null);
         let columns = _.get(this.props, 'columns', null);
-        return (
+				const has_video = _.get(blog_feed_section, 'show_video', null) && _.get(post, 'frontmatter.video_url', null);
+
+				return (
             <article className={classNames('cell-12', 'mb-5', 'mb-md-4', {'cell-md-6': columns === 'two', 'cell-md-4': columns === 'three', 'cell-md-3': columns === 'four'})}>
             	<div className="post-card">
-            		{(_.get(blog_feed_section, 'show_image', null) && _.get(post, 'frontmatter.thumb_image', null)) && (
+								{has_video && (
+									<div className="post-card__image mb-4">
+										<Link to={withPrefix(_.get(post, 'url', null))}>
+											<iframe width="100%" height="auto" src={(_.get(post, 'frontmatter.video_url', null))} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+										</Link>
+									</div>
+								)}
+            		{!has_video && (_.get(blog_feed_section, 'show_image', null) && _.get(post, 'frontmatter.thumb_image', null)) && (
             		<div className="post-card__image mb-4">
             			<Link to={withPrefix(_.get(post, 'url', null))}>
             				<img src={withPrefix(_.get(post, 'frontmatter.thumb_image', null))} alt={_.get(post, 'frontmatter.thumb_image_alt', null)} />
@@ -29,7 +38,7 @@ export default class BlogPostFeedItem extends React.Component {
             			)}
             			{_.get(blog_feed_section, 'title', null) ? (
             			<h3 className={classNames('post-card__title', 'mt-0', {'h2': columns === 'one', 'h5': columns !== 'one'})}><Link to={withPrefix(_.get(post, 'url', null))}>{_.get(post, 'frontmatter.title', null)}</Link></h3>
-            			) : 
+            			) :
             			<h2 className={classNames('post-card__title', 'mt-0', {'h2': columns === 'one', 'h5': columns !== 'one'})}><Link to={withPrefix(_.get(post, 'url', null))}>{_.get(post, 'frontmatter.title', null)}</Link></h2>
             			}
             			{(_.get(blog_feed_section, 'show_excerpt', null) && _.get(post, 'frontmatter.excerpt', null)) && (
