@@ -17,9 +17,7 @@ export default class BlogPostFeedItem extends React.Component {
             	<div className="post-card">
 								{has_video && (
 									<div className="post-card__image mb-4">
-										<Link to={withPrefix(_.get(post, 'url', null))}>
-											<iframe width="100%" height="auto" src={(_.get(post, 'frontmatter.video_url', null))} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-										</Link>
+										<iframe width="100%" height="auto" src={(_.get(post, 'frontmatter.video_url', null))} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 									</div>
 								)}
             		{!has_video && (_.get(blog_feed_section, 'show_image', null) && _.get(post, 'frontmatter.thumb_image', null)) && (

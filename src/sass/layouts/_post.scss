@@ -4,6 +4,9 @@
 			display: block;
 			width: 100%;
 		}
+		.js-reframe {
+			padding-bottom: 56.25%;
+		}
 	}
 
 	&__cat,
@@ -19,7 +22,7 @@
 		color: $gray-dark;
 		text-transform: uppercase;
 	}
-	
+
 	&__meta {
 		color: $gray;
 	}

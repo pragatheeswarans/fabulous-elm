@@ -21,21 +21,31 @@ export const query = graphql`
 export default class Post extends React.Component {
     render() {
         let has_image = false;
+				let has_video = false;
         let image_pos = _.get(this.props, 'pageContext.frontmatter.image_position', null) || 'top';
         if (_.get(this.props, 'pageContext.frontmatter.image', null)) {
              has_image = true;
         }
+        if (_.get(this.props, 'pageContext.frontmatter.video_url', null)) {
+						has_video = true;
+		 		}
+				let isFullWidthMedia = has_video || image_pos === 'top';
         return (
             <Layout {...this.props}>
             <article className="post pt-4 pb-6">
             	<div className={classNames('post__hero', 'container', {'container--medium': (image_pos === 'top') || (has_image === false)})}>
             		<div className={classNames('mb-6', {'grid': image_pos !== 'top'})}>
-            			{has_image && (
+									{has_video && (
+										<div className={classNames('post__image', 'mb-4', 'mb-sm-6', 'cell-12')}>
+											<iframe width="100%" height="auto" src={(_.get(this.props, 'pageContext.frontmatter.video_url', null))} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+										</div>
+									)}
+            			{!has_video && has_image && (
             			<div className={classNames('post__image', 'mb-4', 'mb-sm-6', {'mb-lg-0': image_pos !== 'top', 'cell-12': image_pos !== 'top', 'cell-md-6': image_pos !== 'top'})}>
             				<img src={withPrefix(_.get(this.props, 'pageContext.frontmatter.image', null))} alt={_.get(this.props, 'pageContext.frontmatter.image_alt', null)} />
             			</div>
             			)}
-            			<header className={classNames('post__header', 'text-center', {'cell-12': image_pos !== 'top', 'cell-md-6': image_pos !== 'top', 'order-md-first': has_image && (image_pos === 'right'), 'mt-md-7': has_image && (image_pos !== 'top')})}>
+            			<header className={classNames('post__header', 'text-center', {'cell-12': !isFullWidthMedia, 'cell-md-6': !isFullWidthMedia, 'order-md-first': !has_video && has_image && (image_pos === 'right'), 'mt-md-7': has_image && !isFullWidthMedia})}>
             				{_.get(this.props, 'pageContext.frontmatter.category', null) && (
             				<div className="post__cat mb-3">
             					<BlogPostCategory {...this.props} category={_.get(this.props, 'pageContext.frontmatter.category', null)} />
