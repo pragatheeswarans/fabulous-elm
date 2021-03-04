@@ -1,17 +1,20 @@
 .post-card {
 	&__image {
 		position: relative;
-	
+
 		img {
 			display: block;
 			width: 100%;
 		}
-	
+
 		&:hover {
 			.post-card__overlay {
 				opacity: 1;
 				visibility: visible;
 			}
+		}
+		.js-reframe {
+			padding-bottom: 56.25%;
 		}
 	}
 
@@ -65,7 +68,7 @@
 		color: $gray-dark;
 		text-transform: uppercase;
 	}
-	
+
 	&__meta {
 		color: $gray;
 	}
